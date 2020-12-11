@@ -264,9 +264,16 @@ def main(args):
     print(type(vibe_results))
     import ipdb
     ipdb.set_trace()
-    with open("vibe_results.json", "w") as f:
-          f.write(vibe_results)
+   
     
+    with open("vibe_results.json", "w") as f:
+        import json
+        for k,v in vibe_results.items():
+            for kk, vv in v.items():
+                if isinstance(vv, np.ndarray):
+                    vibe_results[k][kk] = vv.tolist()
+        json.dump(vibe_results,f )
+        print("saved")
           
     if not args.no_render:
         # ========= Render results as a single video ========= #
@@ -307,6 +314,7 @@ def main(args):
                     os.makedirs(mesh_folder, exist_ok=True)
                     mesh_filename = os.path.join(mesh_folder, f'{frame_idx:06d}.obj')
 
+                ipdb.set_trace()
                 img = renderer.render(
                     img,
                     frame_verts,
