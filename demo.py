@@ -13,7 +13,7 @@
 # for Intelligent Systems. All rights reserved.
 #
 # Contact: ps-license@tuebingen.mpg.de
-
+from ipdb import set_trace
 import os
 os.environ['PYOPENGL_PLATFORM'] = 'egl'
 
@@ -260,6 +260,7 @@ def main(args):
 
     joblib.dump(vibe_results, os.path.join(output_path, "vibe_output.pkl"))
 
+    set_trace()
     if not args.no_render:
         # ========= Render results as a single video ========= #
         renderer = Renderer(resolution=(orig_width, orig_height), orig_img=True, wireframe=args.wireframe)
