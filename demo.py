@@ -261,7 +261,7 @@ def main(args):
     joblib.dump(vibe_results, os.path.join(output_path, "vibe_output.pkl"))
 
           
-    print(type(vibe_results)
+    print(type(vibe_results))
     
     set_trace()
     with open("vibe_results.json", "w") as f:
