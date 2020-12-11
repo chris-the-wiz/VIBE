@@ -262,8 +262,8 @@ def main(args):
 
           
     print(type(vibe_results))
-    
-    set_trace()
+    import ipdb
+    ipdb.set_trace()
     with open("vibe_results.json", "w") as f:
           f.write(vibe_results)
     
