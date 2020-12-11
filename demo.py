@@ -260,7 +260,14 @@ def main(args):
 
     joblib.dump(vibe_results, os.path.join(output_path, "vibe_output.pkl"))
 
+          
+    print(type(vibe_results)
+    
     set_trace()
+    with open("vibe_results.json", "w") as f:
+          f.write(vibe_results)
+    
+          
     if not args.no_render:
         # ========= Render results as a single video ========= #
         renderer = Renderer(resolution=(orig_width, orig_height), orig_img=True, wireframe=args.wireframe)
