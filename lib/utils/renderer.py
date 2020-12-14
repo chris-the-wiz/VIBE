@@ -115,6 +115,8 @@ class Renderer:
         else:
             render_flags = RenderFlags.RGBA
 
+        import ipdb
+        ipdb.set_trace()
         rgb, _ = self.renderer.render(self.scene, flags=render_flags)
         valid_mask = (rgb[:, :, -1] > 0)[:, :, np.newaxis]
         output_img = rgb[:, :, :-1] * valid_mask + (1 - valid_mask) * img
