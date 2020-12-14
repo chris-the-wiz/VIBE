@@ -80,7 +80,7 @@ class Renderer:
         with open ("faces.json", "w") as f:
             f.write(json.dumps(self.faces.tolist()))
         with open ("verts.json", "w") as f:
-            f.write(json.dumps(verts.tolist()))
+            f.write(json.dumps(verts))
         
         print("faces and vers saved")
          
