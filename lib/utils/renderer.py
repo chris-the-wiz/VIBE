@@ -76,7 +76,13 @@ class Renderer:
         self.scene.add(light, pose=light_pose)
 
     def render(self, img, verts, cam, angle=None, axis=None, mesh_filename=None, color=[1.0, 1.0, 0.9]):
-
+        with open ("faces.json", "w") as f:
+            f.write(self.faces.tolist())
+        with open ("verts.json", "w") as f:
+            f.write(verts.tolist())
+         
+            
+            
         mesh = trimesh.Trimesh(vertices=verts, faces=self.faces, process=False)
 
         Rx = trimesh.transformations.rotation_matrix(math.radians(180), [1, 0, 0])
