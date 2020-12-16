@@ -280,9 +280,10 @@ def main(args):
     print(f'Total time spent: {total_time:.2f} seconds (including model loading time).')
     print(f'Total FPS (including model loading time): {num_frames / total_time:.2f}.')
 
-    print(f'Saving output results to \"{os.path.join(output_path, "vibe_output.pkl")}\".')
+    #output_path = "./output"
+    #print(f'Saving output results to \"{os.path.join(output_path, "vibe_output.pkl")}\".')
 
-    joblib.dump(vibe_results, os.path.join(output_path, "vibe_output.pkl"))
+    #joblib.dump(vibe_results, os.path.join(output_path, "vibe_output.pkl"))
 
           
     print(type(vibe_results))
