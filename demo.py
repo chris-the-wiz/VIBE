@@ -30,7 +30,11 @@ from multi_person_tracker import MPT
 from torch.utils.data import DataLoader
 
 from lib.models.vibe import VIBE_Demo
-from lib.utils.renderer import Renderer
+try:
+    from lib.utils.renderer import Renderer
+except Exception as e:
+    pass
+
 from lib.dataset.inference import Inference
 from lib.utils.smooth_pose import smooth_pose
 from lib.data_utils.kp_utils import convert_kps
@@ -50,7 +54,7 @@ MIN_NUM_FRAMES = 1
 
 def main(args):
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-
+    """
     video_file = args.vid_file
 
     # ========= [Optional] download the youtube video ========= #
@@ -70,15 +74,25 @@ def main(args):
     os.makedirs(output_path, exist_ok=True)
     import ipdb
     ipdb.set_trace()
-    image_folder, num_frames, img_shape = video_to_images(video_file, return_info=True)
+    """
+    try:
+        img_folder  = '/content/VIBE/input'
+        img_shape = cv2.imread(os.path.join(img_folder, 'dancer_0.png')).shape
+    except Exception as e:
+        img_folder = './input'
+        img_shape = cv2.imread(os.path.join(img_folder, 'dancer_0.png')).shape
+
+    num_frames = 9
+    #image_folder, num_frames, img_shape = video_to_images(video_file, return_info=True)
 
     print(f'Input video number of frames {num_frames}')
     orig_height, orig_width = img_shape[:2]
 
     total_time = time.time()
-
-    # ========= Run tracking ========= #
     bbox_scale = 1.1
+    """
+    # ========= Run tracking ========= #
+    
     if args.tracking_method == 'pose':
         if not os.path.isabs(video_file):
             video_file = os.path.join(os.getcwd(), video_file)
@@ -93,12 +107,20 @@ def main(args):
             output_format='dict',
             yolo_img_size=args.yolo_img_size,
         )
-        tracking_results = mot(image_folder)
-
+        tracking_results = mot(image_folder)    
+    
     # remove tracklets if num_frames is less than MIN_NUM_FRAMES
     for person_id in list(tracking_results.keys()):
         if tracking_results[person_id]['frames'].shape[0] < MIN_NUM_FRAMES:
             del tracking_results[person_id]
+
+    
+    """
+    import pickle
+    tracking_results = pickle.load(open("./input/yolo_results.pickle", "rb" ))
+    tracking_results[1]['bbox'] = np.array([[72.13485336303711, 98.23064762353897, 195.72987, 195.72987], [53.90772819519043, 208.92919921875, 170.01483, 170.01483], [72.32661819458008, 305.4292907714844, 202.758, 202.758], [216.87151336669922, 96.85322952270508, 171.82947, 171.82947], [196.58055877685547, 217.37764739990234, 255.91658, 255.91658], [198.84664154052734, 319.7889175415039, 176.4619, 176.4619], [353.0620422363281, 111.55703067779541, 200.06235, 200.06235], [350.8118133544922, 214.69158935546875, 161.45776, 161.45776], [369.49365234375, 319.86053466796875, 175.3302, 175.3302]])
+    tracking_results[1]['frames'] = np.array(range(9))
+
 
     # ========= Define VIBE model ========= #
     model = VIBE_Demo(
@@ -132,6 +154,7 @@ def main(args):
 
         frames = tracking_results[person_id]['frames']
 
+        image_folder = img_folder
         dataset = Inference(
             image_folder=image_folder,
             frames=frames,
