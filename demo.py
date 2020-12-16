@@ -46,7 +46,7 @@ from lib.utils.demo_utils import (
     download_ckpt,
 )
 
-MIN_NUM_FRAMES = 25
+MIN_NUM_FRAMES = 1
 
 def main(args):
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
@@ -68,7 +68,8 @@ def main(args):
 
     output_path = os.path.join(args.output_folder, os.path.basename(video_file).replace('.mp4', ''))
     os.makedirs(output_path, exist_ok=True)
-
+    import ipdb
+    ipdb.set_trace()
     image_folder, num_frames, img_shape = video_to_images(video_file, return_info=True)
 
     print(f'Input video number of frames {num_frames}')
